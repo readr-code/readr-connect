@@ -2,21 +2,22 @@
 
 # readr-connect
 
-A set of examples that show how to use the Readr REST API to connect with Readr in the cloud.
+Examples showing how to use the Readr REST API to connect with Readr in the cloud. This makes it possible to push large document collections into Readr cloud, which makes it easy to explore the collections and create annotations as well as extraction patterns. Annotations and patterns can later be downloaded using the REST API.
 
-## Prerequisites
+readr-connect has been tested on MacOS X with Scala 2.10.4 and sbt 0.13.
 
-The following has been tested on MacOS X with Scala 2.10.4, sbt 0.13, Spark 1.0.1.
+To run the examples, you must first set the user, password, and ns fields in [conf/application.conf](conf/application.conf). The ns field (namespace) is automatically generated when you create an account on readr.com.
 
-You must have Apache spark installed in a directory if you would like to process and push new datasets to readr. Fetch spark at `https://spark.apache.org/downloads.html`.
+## 2. Basic API examples
 
-If you would like to run Kevin's preprocessing scripts for the wikipedia corpora, you must also install xml, gsed. 
+Start by creating a project
 
-## 1. Setting Readr credentials
+`sbt "runMain example.CreateProject1"`  [source](src/main/scala/example/CreateProject1.scala)
 
-In `conf/application.conf` set the user and password fields.
 
-## 2. Simple API examples
+
+
+[CreateProject2](src/main/scala/example/CreateProject2.scala)
 
 [AddDocument1](src/main/scala/example/AddDocument1.scala)
 [AddDocument2](src/main/scala/example/AddDocument2.scala)
@@ -46,6 +47,12 @@ Copying frames/rules/annotation for all frames using json (editable, but not ver
 ## 3. Working with large corpora
 
 For large corpora, we recommend to do all preprocessing locally (or on another cluster) and then push the results to Readr Cloud for exploration and pattern development.
+
+Spark 1.0.1.
+
+You must have Apache spark installed in a directory if you would like to process and push new datasets to readr. Fetch spark at `https://spark.apache.org/downloads.html`.
+
+
 
 1. Convert sources into Readr format. 
 
