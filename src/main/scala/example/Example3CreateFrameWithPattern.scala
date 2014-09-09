@@ -1,4 +1,4 @@
-package basic
+package example
 
 import scala.collection.mutable.Seq
 
@@ -12,23 +12,12 @@ import com.readr.model.frame.FrameArg
 import com.readr.model.frame.FrameType
 import com.typesafe.config.ConfigFactory
 
-object Example3CreateFrameWithPattern {
+object Example3CreateFrameWithPattern extends Settings {
   
   def main(args:Array[String]) = {
-    val conf = ConfigFactory.load
-    val host = conf.getString("HOST")
-    val user = conf.getString("USER")
-    val password = conf.getString("PASSWORD")
-    val ns = conf.getString("NS")
-    val proj = conf.getString("EXAMPLE_PROJ")
-    
-    Client.baseUrl = host + "/api"
-    Client.user = user
-    Client.password = password
-    
     implicit val p = Project(ns, proj)
         
-    Client.open
+    Client.open(host, user, password)
     
     val f = Frame(
       name = "1sttest", 
@@ -36,8 +25,9 @@ object Example3CreateFrameWithPattern {
       examples = 
         """|In the hot weather our bodies sweat perspiration bringing water to our[our] skin.
            |("our bodies"/?x "sweat" "perspiration" [ "In the hot weather" ] )	""/EFFECT-55	("our bodies"/?x "bring" "water" [ "to our[our] skin" ] )""".stripMargin, 
-	  typ = FrameType.Verb // currently not used
+	    typ = FrameType.Verb // currently not used
     )
+
     //val frameID = frames.create(f)
     val rv = frames.addMany(Seq(f))
     val frameID = rv(0)

@@ -1,4 +1,4 @@
-package basic
+package example
 
 import scala.collection.mutable._
 import scala.io.Source
@@ -23,24 +23,13 @@ import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.io.FileOutputStream
 
-object Example6FetchPatternAnnotations {
+object Example6FetchPatternAnnotations extends Settings {
   
   def main(args:Array[String]) = {
-    val conf = ConfigFactory.load
-    val host = conf.getString("HOST")
-    val user = conf.getString("USER")
-    val password = conf.getString("PASSWORD")
-    val ns = conf.getString("NS")
-    val proj = conf.getString("EXAMPLE_PROJ")
-    
-    Client.baseUrl = host + "/api"
-    Client.user = user
-    Client.password = password
-    
     implicit val p = Project(ns, proj)
         
     // store annotations in local file
-    val outDir = "/tmp/test"
+    val outDir = tmpDir + "/test"
     if (new File(outDir).exists) {
       println("/tmp/test already exists, you must delete that first")
       System.exit(1)
@@ -49,7 +38,7 @@ object Example6FetchPatternAnnotations {
     
     val f = new File(outDir + "/annotations")
     
-    Client.open        
+    Client.open(host, user, password)
     
     val frameID = frames.idByName("frame2")
     if (frameID == -1)

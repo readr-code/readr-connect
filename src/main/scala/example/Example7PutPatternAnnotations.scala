@@ -1,4 +1,6 @@
-package basic
+package example
+
+import example.Example6FetchPatternAnnotations._
 
 import scala.collection.mutable._
 import scala.io.Source
@@ -28,23 +30,13 @@ import com.readr.client.document.layerDefaults
 import com.readr.client.document.frameMatchFeatures
 import com.readr.model.FrameMatchFeatureLayerRef
 
-object Example7PutPatternAnnotations {
+object Example7PutPatternAnnotations extends Settings {
   
   def main(args:Array[String]) = {
-    val conf = ConfigFactory.load
-    val host = conf.getString("HOST")
-    val user = conf.getString("USER")
-    val password = conf.getString("PASSWORD")
-    val ns = conf.getString("NS")
-    val proj = conf.getString("EXAMPLE_PROJ")
-    
-    Client.baseUrl = host + "/api"
-    Client.user = user
-    Client.password = password
 
     implicit val p = Project(ns, proj)
 
-    Client.open        
+    Client.open(host, user, password)
 
     val layerID = layerDefaults("FrameMatchFeature", "Manual")    
     implicit val lay = FrameMatchFeatureLayerRef(layerID)        
@@ -53,7 +45,7 @@ object Example7PutPatternAnnotations {
     if (frameID == -1)
       println("Frame not found")
 
-    val dir = "/tmp/test"
+    val dir = tmpDir + "/test"
     val f = new File(dir + "/annotations")
     val reader = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"))
     val docPattern = Pattern.compile("doc (.*), sentNum (.*), sentenceTokenOffset (.*), truth (.*)")

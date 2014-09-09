@@ -1,4 +1,4 @@
-package basic
+package example
 
 import scala.collection.mutable._
 import scala.io.Source
@@ -18,23 +18,12 @@ import com.readr.client.meaning.frameValences
 import com.readr.model.annotation.AnnotationConfirmationType
 import com.readr.model.annotation.AnnotatedSentence
 
-object Example4FetchPatternMatches {
+object Example5FetchPatternAnnotations extends Settings {
   
   def main(args:Array[String]) = {
-    val conf = ConfigFactory.load
-    val host = conf.getString("HOST")
-    val user = conf.getString("USER")
-    val password = conf.getString("PASSWORD")
-    val ns = conf.getString("NS")
-    val proj = conf.getString("EXAMPLE_PROJ")
-    
-    Client.baseUrl = host + "/api"
-    Client.user = user
-    Client.password = password
-    
     implicit val p = Project(ns, proj)
         
-    Client.open
+    Client.open(host, user, password)
     
     val frameID = frames.idByName("1sttest")
     if (frameID == -1)
@@ -45,9 +34,10 @@ object Example4FetchPatternMatches {
     println("confirmedMatches = " + frameCounts.confirmedMatches)
     println("...")
 
-    val prs = frameValences.sentences(AnnotationConfirmationType.AllMatches, frameID, 0, 100)
+    val prs = frameValences.sentences(AnnotationConfirmationType.AllAnnotations, frameID, 0, 100)
+    
     if (prs.list.isEmpty)
-      println("No matches.")
+      println("No annotations.")
       
     for (as:AnnotatedSentence <- prs.list) {
       println("doc " + as.documentID + ", sentNum " + as.sentNum)
@@ -60,14 +50,14 @@ object Example4FetchPatternMatches {
       val framePatterns = ann(4).asInstanceOf[FrameMatchFeatureAnn]
       val frameManual = ann(5).asInstanceOf[FrameMatchFeatureAnn]
         
-      println(textAnn.text)
-      for (arg <- framePatterns.features(0).args) 
-        println("arg " + arg.argNum + ": " + (arg.pos - sentenceTokenOffsetAnn.sents(0).f))
+      println("// " + textAnn.text)
+      for (arg <- frameManual.features(0).args) 
+        println("arg " + arg.argNum + ": " + (arg.pos - sentenceTokenOffsetAnn.sents(0).f))   
     }
     
     if (prs.hasMore)
-      println("Note: There are more matches.")
+      println("Note: There are more annotations.")
     
-    Client.close 
+    Client.close
   }
 }

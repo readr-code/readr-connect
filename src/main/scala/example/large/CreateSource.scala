@@ -1,5 +1,6 @@
-package large
+package example.large
 
+import example.Settings
 import scala.collection.mutable._
 import scala.io.Source
 import org.apache.hadoop.conf.Configuration
@@ -11,7 +12,7 @@ import com.readr.model.Offsets
 import com.readr.model.annotation.Annotations
 import com.readr.client.util.AnnotationSequenceFileWriter
 
-object CreateSource {
+object CreateSource extends Settings {
   
   //val headersFile   = Settings.srcDir + "/campbell-biology/book-headers.txt"
   //val sentencesFile = Settings.srcDir + "/campbell-biology/book-sentences.txt"

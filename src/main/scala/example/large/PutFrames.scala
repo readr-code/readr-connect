@@ -1,5 +1,6 @@
-package large
+package example.large
 
+import example.Settings
 import scala.collection.mutable._
 import scala.io.Source
 import org.apache.hadoop.conf.Configuration
@@ -16,27 +17,13 @@ import com.readr.client.meaning.frames
 import com.readr.model.frame.Frame
 
 
-object PutFrames {
+object PutFrames extends Settings {
   
-  private def usage =
-    println("PutFrames HOST USER PASSWORD NS PROJ DIR")
-    
   def main(args:Array[String]) = {
-    val host = args(0)        // http://preview.readr.com:9000
-    val user = args(1)        // a
-    val password = args(2)    // a
-    val ns = args(3)          // allenai
-    val proj = args(4)        // barrons-4th-grade
-    val dir = args(5)         // /Users/.../data
-    
-    Client.baseUrl = host + "/api"
-    Client.user = user
-    Client.password = password
-    
     implicit val p = Project(ns, proj)
         
     val conf = new Configuration()
-    val sf = new AnnotationSequenceFileReader(conf, Array(classOf[Frame]), dir + "/data.colX.Frame")
+    val sf = new AnnotationSequenceFileReader(conf, Array(classOf[Frame]), tmpDir + "/data.colX.Frame")
 
     for (clazz <- Annotations.annWithDependentClazzes)
       sf.register(clazz)
@@ -50,11 +37,10 @@ object PutFrames {
     }
     sf.close
       
-    Client.open
+    Client.open(host, user, password)
     
     frames.addMany(fs.map(x => x._2))
     
     Client.close
-    
   } 
 }

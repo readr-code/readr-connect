@@ -1,6 +1,5 @@
-package basic
+package example
 
-//import scala.collection.mutable._
 import scala.io.Source
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.io._
@@ -14,6 +13,7 @@ import com.readr.client.meaning.frames
 import com.readr.model.frame.Frame
 import com.typesafe.config.ConfigFactory
 import com.readr.client.meaning.frames
+import com.readr.client.meaning.frameArgs
 import com.readr.client.meaning.frameValences
 import com.readr.model.annotation.AnnotationConfirmationType
 import com.readr.model.annotation.AnnotatedSentence
@@ -41,59 +41,42 @@ import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 
 
-
-object Example8FetchAllMeaning {
+object Example9PutAllMeaning extends Settings {
   implicit val formats = Serialization.formats(NoTypeHints)
   
   def main(args:Array[String]) = {
-    val conf = ConfigFactory.load
-    val host = conf.getString("HOST")
-    val user = conf.getString("USER")
-    val password = conf.getString("PASSWORD")
-    val ns = conf.getString("NS")
-    val proj = conf.getString("EXAMPLE_PROJ")
-    
-    Client.baseUrl = host + "/api"
-    Client.user = user
-    Client.password = password
-
     implicit val p = Project(ns, proj)
 
-    Client.open
+    Client.open(host, user, password)
 
     val layerID = layerDefaults("FrameMatchFeature", "Manual")    
     implicit val lay = FrameMatchFeatureLayerRef(layerID)
-        
-    val outDir = "/tmp/test"
     
-    // get frames
-    val l:Seq[(Int,Frame)] = frames.listDetails
-    
-    // create document for each frame; get annotations
-    for (t <- l) { t match {
-      case (frameID,x) => 
-        val w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outDir + "/" + x.name + ".json")))
-        val json = write[Frame](x)
-        w.write(frameID + "\n")
-        w.write(json.toString + "\n")
+    // clear
+    frames.delete
+    frameMatchFeatures.delete
         
-        var offset = 0
-        var hasMore = true
-        while (hasMore) {
-          val ls = frameMatchFeatures.findByFrameID(frameID, offset, 1000)
-          for (r <- ls) {
-            val jsonm = write[FrameMatchFeature](r)
-            w.write(jsonm + "\n")
-          }
-          if (ls.size < 1000)
-            hasMore = false
-          else
-            offset += 1000
-        }
-        w.close()
-      }
+    val outDir = tmpDir + "/test"
+      
+    for (f <- new File(outDir).listFiles) {
+      val r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"))
+      val frameID = r.readLine.toInt
+      val frame = read[Frame](r.readLine)
+      var newFrameID = frames.create(frame)
+      
+      for (arg <- frame.args)
+        frameArgs.add(newFrameID, arg)
+
+      frameValences.update(newFrameID, frame.valences(0).text)
+
+      var l:String = null
+      while ({ l = r.readLine; l != null }) {
+        val fmf = read[FrameMatchFeature](l)
+        frameMatchFeatures.add(fmf.copy(frameID = newFrameID))
+      }      
+      r.close
     }
-    
+      
     Client.close     
   } 
 }

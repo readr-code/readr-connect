@@ -1,5 +1,6 @@
-package large
+package example.large
 
+import example.Settings
 import com.readr.client._
 import com.readr.model.Project
 import com.readr.client.document.layers
@@ -8,26 +9,13 @@ import com.readr.model.layer._
 import com.readr.client.system.management
 import com.readr.model.ProjectDetails
 
-object CreateDB {
+object CreateDB extends Settings {
 
-  private def usage =
-    println("CreateDB HOST USER PASSWORD NS PROJ DIR")
-    
   def main(args:Array[String]) = {
-    val host = args(0)        // http://preview.readr.com:9000
-    val user = args(1)        // a
-    val password = args(2)    // a
-    val ns = args(3)          // allenai
-    val proj = args(4)        // barrons-4th-grade
-    val dir = args(5)         // /Users/.../data
-    
-    Client.baseUrl = host + "/api"
-    Client.user = user
-    Client.password = password
-    
+
     implicit val p = Project(ns, proj)
     
-    Client.open
+    Client.open(host, user, password)
     
     projects.delete
     projects.create(p)
@@ -53,7 +41,7 @@ object CreateDB {
     layerDefaults.set("POS", "", l7)
     layerDefaults.set("Lemma", "", l8)
    
-    importIndices(ns, proj, dir)
+    importIndices(ns, proj, tmpDir)
     
     Client.close        
   }
