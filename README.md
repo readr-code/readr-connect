@@ -18,7 +18,7 @@ In `conf/application.conf` set the user and password fields.
 
 ## 2. Simple API examples
 
-[README](../blob/master/README.md)
+[README](README.md)
 
 [README](../blob/master/README.md)
 
