@@ -12,24 +12,28 @@ To run the examples, you must first set the user, password, and ns fields in [co
 
 Start by creating a project
 
-`sbt "runMain example.CreateProject1"`  [source](src/main/scala/example/CreateProject1.scala)
+`sbt "runMain example.CreateProject1"`    [source](src/main/scala/example/CreateProject1.scala)
 
+and adding a document
 
+`sbt "runMain example.AddDocument1"`    [source](src/main/scala/example/AddDocument1.scala)
 
+These two examples actually do slightly more than that: the first creates a project with a set of default
+annotation layers, and the second precomputes these annotations when storing the document. The annotations
+include tokenization, lemmatization, and more. For more fine grained control over annotations see 
+[source](src/main/scala/example/CreateProject2.scala) and [source](src/main/scala/example/AddDocument2.scala).
 
-[CreateProject2](src/main/scala/example/CreateProject2.scala)
+Next, we will create a semantic frame with an extraction pattern
 
-[AddDocument1](src/main/scala/example/AddDocument1.scala)
-[AddDocument2](src/main/scala/example/AddDocument2.scala)
+`sbt "runMain example.CreateFrameWithPattern"`    [source](src/main/scala/example/CreateFrameWithPattern.scala)
 
+and fetch the matches for our extraction pattern
 
-See the examples in `src/main/scala/allenai/example` to see how to push patterns, fetch results, etc. You can run them as follows:
+`sbt "runMain example.FetchPatternMatches"`    [source](src/main/scala/example/FetchPatternMatches.scala)
 
-`sbt "runMain allenai.example.Example3CreateFrameWithPattern"`
+At this point, you can also validate a few of the generated matches using the web interface, or create additional annotations. These can then be retrieved using
 
-`sbt "runMain allenai.example.Example4FetchPatternMatches"`
-
-`sbt "runMain allenai.example.Example5FetchPatternAnnotations"`
+`sbt "runMain example.FetchPatternAnnotations"`    [source](src/main/scala/example/FetchPatternAnnotations.scala)
 
 Copying annotations only for given frame as text (easy to read and edit)
 
@@ -39,16 +43,16 @@ Copying annotations only for given frame as text (easy to read and edit)
 
 Copying frames/rules/annotation for all frames using json (editable, but not very easily)
 
-`sbt "runMain allenai.example.Example8FetchAllMeaning"`
+`sbt "runMain example.large.FetchAllMeaning"`
 
-`sbt "runMain allenai.example.Example9PutAllMeaning"`
+`sbt "runMain example.large.PutAllMeaning"`
 
 
 ## 3. Working with large corpora
 
 For large corpora, we recommend to do all preprocessing locally (or on another cluster) and then push the results to Readr Cloud for exploration and pattern development.
 
-Spark 1.0.1.
+Spark 1.0.2.
 
 You must have Apache spark installed in a directory if you would like to process and push new datasets to readr. Fetch spark at `https://spark.apache.org/downloads.html`.
 
