@@ -18,9 +18,9 @@ In `conf/application.conf` set the user and password fields.
 
 ## 2. Simple API examples
 
-[README](README.md)
+[AddDocument1](src/main/scala/example/AddDocument1.scala)
+[AddDocument2](src/main/scala/example/AddDocument2.scala)
 
-[README](../blob/master/README.md)
 
 See the examples in `src/main/scala/allenai/example` to see how to push patterns, fetch results, etc. You can run them as follows:
 
