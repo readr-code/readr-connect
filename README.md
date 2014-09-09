@@ -18,6 +18,10 @@ In `conf/application.conf` set the user and password fields.
 
 ## 2. Simple API examples
 
+[README](../blob/master/README.md)
+
+[README](../blob/master/README.md)
+
 See the examples in `src/main/scala/allenai/example` to see how to push patterns, fetch results, etc. You can run them as follows:
 
 `sbt "runMain allenai.example.Example3CreateFrameWithPattern"`
