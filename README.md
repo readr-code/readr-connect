@@ -1,4 +1,4 @@
-[![Build Status](https://api.shippable.com/projects/53f2e991c4f33e48022b5360/badge/master)](https://www.shippable.com/projects/53f2e991c4f33e48022b5360)
+[![Build Status](https://api.shippable.com/projects/540e79223479c5ea8f9ea41d/badge?branchName=master)](https://app.shippable.com/projects/540e79223479c5ea8f9ea41d/builds/latest)
 
 # readr-connect
 
