@@ -41,7 +41,7 @@ import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 
 
-object Example9PutAllMeaning extends Settings {
+object PutAllMeaning extends Settings {
   implicit val formats = Serialization.formats(NoTypeHints)
   
   def main(args:Array[String]) = {

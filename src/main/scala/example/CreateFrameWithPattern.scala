@@ -10,9 +10,8 @@ import com.readr.model.Project
 import com.readr.model.frame.Frame
 import com.readr.model.frame.FrameArg
 import com.readr.model.frame.FrameType
-import com.typesafe.config.ConfigFactory
 
-object Example3CreateFrameWithPattern extends Settings {
+object CreateFrameWithPattern extends Settings {
   
   def main(args:Array[String]) = {
     implicit val p = Project(ns, proj)

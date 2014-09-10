@@ -42,21 +42,10 @@ import org.json4s.jackson.JsonMethods._
 
 
 
-object Example8FetchAllMeaning {
+object FetchAllMeaning extends Settings {
   implicit val formats = Serialization.formats(NoTypeHints)
   
   def main(args:Array[String]) = {
-    val conf = ConfigFactory.load
-    val host = conf.getString("HOST")
-    val user = conf.getString("USER")
-    val password = conf.getString("PASSWORD")
-    val ns = conf.getString("NS")
-    val proj = conf.getString("EXAMPLE_PROJ")
-    
-    Client.baseUrl = host + "/api"
-    Client.user = user
-    Client.password = password
-
     implicit val p = Project(ns, proj)
 
     Client.open(host, user, password)

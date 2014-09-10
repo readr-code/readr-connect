@@ -1,6 +1,6 @@
 package example
 
-import example.Example6FetchPatternAnnotations._
+import example.FetchPatternAnnotations2._
 
 import scala.collection.mutable._
 import scala.io.Source
@@ -30,10 +30,9 @@ import com.readr.client.document.layerDefaults
 import com.readr.client.document.frameMatchFeatures
 import com.readr.model.FrameMatchFeatureLayerRef
 
-object Example7PutPatternAnnotations extends Settings {
+object PutPatternAnnotations extends Settings {
   
   def main(args:Array[String]) = {
-
     implicit val p = Project(ns, proj)
 
     Client.open(host, user, password)

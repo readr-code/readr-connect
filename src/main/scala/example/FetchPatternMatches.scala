@@ -18,7 +18,7 @@ import com.readr.client.meaning.frameValences
 import com.readr.model.annotation.AnnotationConfirmationType
 import com.readr.model.annotation.AnnotatedSentence
 
-object Example4FetchPatternMatches extends Settings {
+object FetchPatternMatches extends Settings {
   
   def main(args:Array[String]) = {
     implicit val p = Project(ns, proj)

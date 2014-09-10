@@ -23,7 +23,7 @@ import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.io.FileOutputStream
 
-object Example6FetchPatternAnnotations extends Settings {
+object FetchPatternAnnotations2 extends Settings {
   
   def main(args:Array[String]) = {
     implicit val p = Project(ns, proj)
