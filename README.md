@@ -33,68 +33,26 @@ and fetch the matches for our extraction pattern
 
 At this point, you can also validate a few of the generated matches using the web interface, or create additional annotations. These can then be retrieved using
 
-`sbt "runMain example.FetchPatternAnnotations"`    [source](src/main/scala/example/FetchPatternAnnotations.scala)
+`sbt "runMain example.FetchPatternAnnotations1"`    [source](src/main/scala/example/FetchPatternAnnotations.scala1)
 
-Copying annotations only for given frame as text (easy to read and edit)
-
-`sbt "runMain allenai.example.Example6FetchPatternAnnotations"`
-
-`sbt "runMain allenai.example.Example7PutPatternAnnotations"`
-
-Copying frames/rules/annotation for all frames using json (editable, but not very easily)
-
-`sbt "runMain example.large.FetchAllMeaning"`
-
-`sbt "runMain example.large.PutAllMeaning"`
-
+The previous example writes these annotations to the screen, but of course we can also store these in a file ([source](src/main/scala/example/FetchPatternAnnotations2.scala), and later push them back into the cloud ([source](src/main/scala/example/PutPatternAnnotations.scala). While these examples handle the case for one given frame, we can also fetch and write back all frames, patterns, and annotations, at once, as shown in examples [source](src/main/scala/example/FetchAllMeaning.scala) and [source](src/main/scala/example/PutAllMeaning.scala).
 
 ## 3. Working with large corpora
 
-For large corpora, we recommend to do all preprocessing locally (or on another cluster) and then push the results to Readr Cloud for exploration and pattern development.
+For large corpora, we recommend doing all preprocessing locally (or on another cluster) and then push the results to Readr cloud. For processing we use Apache Spark. You must have Apache spark installed in a directory if you would like to process and push new datasets to readr. Fetch spark at `https://spark.apache.org/downloads.html`. We have tested our system on Spark 1.0.2.
 
-Spark 1.0.2.
+Start by converting your documents into the readr format.
 
-You must have Apache spark installed in a directory if you would like to process and push new datasets to readr. Fetch spark at `https://spark.apache.org/downloads.html`.
+`sbt "runMain example.large.CreateSource"`    [source](src/main/scala/example/large/CreateSource.scala)
 
+Then, run your processing on Apache Spark. The [readr-spark](http://github.com/readr-code/readr-spark) project contains more information on how this is done.
 
+Finally, you can push the results to Readr cloud.
 
-1. Convert sources into Readr format. 
+`sbt "runMain example.large.CreateDB"`    [source](src/main/scala/example/large/CreateDB.scala)
 
-`large.Example1CreateSource`
+Spark uses Kryo for efficient serialization and deserialization of objects. We can also fetch and write back frames in Kryo. This makes it easy to generate a large number of frames, for example based on a resource. 
 
-2. Run processing on Apache Spark.
+`sbt "runMain example.large.FetchFrames"`    [source](src/main/scala/example/large/FetchFrames.scala)
 
-Refer to readr-spark on more information on how this is done.
-
-3. Push the results to Readr Cloud.
-
-`large.Example2CreateDB`
-
-You can now use Readr Cloud to create frames and patterns. When you are done using Readr Cloud you can fetch the rules and annotations you have created to store them locally. You can also write these back to Readr Cloud (to the same or a different Readr project). There are a bunch of different options:
-
-large.Example3FetchFrames
-
-large.Example4PutFrames
-
-## 4. Copying rule sets
-
-Readr Cloud makes it easy to create, manipulate, and test extraction rules. When you are done using Readr Cloud you can fetch the rules and annotations you have created to store them locally. You can also write these back to Readr Cloud (to the same or a different Readr project). There are a bunch of different options:
-
-### Copying frames/rules using kryo (fast, but not human-readable)
-
-`./fetch_frames.sh`
-
-`./push_frames.sh`
- 
-### Copying annotations only for given frame as text (easy to read and edit)
-    
-`sbt "runMain allenai.example.Example6FetchPatternAnnotations"`
-
-`sbt "runMain allenai.example.Example7PutPatternAnnotations"`
-    
-### Copying frames/rules/annotation for all frames using json (editable, but not very easily)
-
-`sbt "runMain allenai.example.Example8FetchAllMeaning"`
-
-`sbt "runMain allenai.example.Example9PutAllMeaning"`
-
+`sbt "runMain example.large.PutFrames"`    [source](src/main/scala/example/large/PutFrames.scala)
