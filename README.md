@@ -8,7 +8,7 @@ readr-connect has been tested on MacOS X with Scala 2.10.4 and sbt 0.13.
 
 To run the examples, you must first set the user, password, and ns fields in [conf/application.conf](conf/application.conf). The ns field (namespace) is automatically generated when you create an account on readr.com.
 
-## 2. Basic API examples
+## 1. Basic API examples
 
 Start by creating a project
 
@@ -37,7 +37,7 @@ At this point, you can also validate a few of the generated matches using the we
 
 The previous example writes these annotations to the screen, but of course we can also store these in a file ([source](src/main/scala/example/FetchPatternAnnotations2.scala), and later push them back into the cloud ([source](src/main/scala/example/PutPatternAnnotations.scala). While these examples handle the case for one given frame, we can also fetch and write back all frames, patterns, and annotations, at once, as shown in examples [source](src/main/scala/example/FetchAllMeaning.scala) and [source](src/main/scala/example/PutAllMeaning.scala).
 
-## 3. Working with large corpora
+## 2. Working with large corpora
 
 For large corpora, we recommend doing all preprocessing locally (or on another cluster) and then push the results to Readr cloud. For processing we use Apache Spark. You must have Apache spark installed in a directory if you would like to process and push new datasets to readr. Fetch spark at `https://spark.apache.org/downloads.html`. We have tested our system on Spark 1.0.2.
 
