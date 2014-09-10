@@ -35,7 +35,7 @@ At this point, you can also validate a few of the generated matches using the we
 
 `sbt "runMain example.FetchPatternAnnotations1"`    [source](src/main/scala/example/FetchPatternAnnotations.scala1)
 
-The previous example writes these annotations to the screen, but of course we can also store these in a file ([source](src/main/scala/example/FetchPatternAnnotations2.scala), and later push them back into the cloud ([source](src/main/scala/example/PutPatternAnnotations.scala). While these examples handle the case for one given frame, we can also fetch and write back all frames, patterns, and annotations, at once, as shown in examples [source](src/main/scala/example/FetchAllMeaning.scala) and [source](src/main/scala/example/PutAllMeaning.scala).
+The previous example writes these annotations to the screen, but of course we can also store these in a file ([source](src/main/scala/example/FetchPatternAnnotations2.scala)), and later push them back into the cloud ([source](src/main/scala/example/PutPatternAnnotations.scala)). While these examples handle the case for one given frame, we can also fetch and write back all frames, patterns, and annotations, at once, as shown in examples [source](src/main/scala/example/FetchAllMeaning.scala) and [source](src/main/scala/example/PutAllMeaning.scala).
 
 ## 2. Working with large corpora
 
